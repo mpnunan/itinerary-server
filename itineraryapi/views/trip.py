@@ -50,11 +50,11 @@ class TripView(ViewSet):
 
 class TripSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Traveler
+        model = Trip
         fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'traveler')
         depth = 1
         
 class TripSerializerShallow(serializers.ModelSerializer):
     class Meta:
-        model = Traveler
+        model = Trip
         fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'traveler_id')
