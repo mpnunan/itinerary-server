@@ -1,0 +1,12 @@
+[
+  {
+    "model": "itineraryapi.admin",
+    "pk": 1,
+    "fields": {
+      "uid": "abc123",
+      "name": "Wayne Gretzky",
+      "bio": "The Great One"
+    }
+      
+  }
+]
