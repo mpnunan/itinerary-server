@@ -1,0 +1,22 @@
+[
+    {
+        "model": "itineraryapi.activity",
+        "pk": 1,
+        "fields": {
+            "name": "Disney World",
+            "description": "Going for rides",
+            "length_of_time": "3 days",
+            "cost": "500000"
+        }
+    },
+    {
+        "model": "itineraryapi.activity",
+        "pk": 2,
+        "fields": {
+            "name": "Yellowstone National Park",
+            "description": "Going to see the yellowstone national park",
+            "length_of_time": "5 days",
+            "cost": 30
+        }
+    }
+]

@@ -17,9 +17,10 @@ from django.conf.urls import include
 from rest_framework import routers
 from django.contrib import admin
 from django.urls import path
-from itineraryapi.views import register_user, check_user
+from itineraryapi.views import register_user, check_user, ActivityView
 
 router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'activity', ActivityView, 'activity')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
