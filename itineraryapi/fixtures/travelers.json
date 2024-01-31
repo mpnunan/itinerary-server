@@ -1,0 +1,11 @@
+[
+  {
+    "model": "itineraryapi.traveler",
+    "pk": 1,
+    "fields": {
+      "name": "Butters",
+      "email": "loo@looloo.com",
+      "phone": 123456789
+    }
+  }
+]
