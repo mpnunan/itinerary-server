@@ -2,7 +2,8 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from itineraryapi.models import Trip, Traveler
+from itineraryapi.models import Trip, Traveler, Activity, TripActivity
+from rest_framework.decorators import action
 
 
 class TripView(ViewSet):
@@ -47,11 +48,42 @@ class TripView(ViewSet):
         trip = Trip.objects.get(pk=pk)
         trip.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
+    @action(methods=['post'], detail=True)
+    def add_activity(self, request, pk):
 
+        trip = Trip.objects.get(pk=pk)
+        activity=Activity.objects.get(pk=request.data["activityId"])
+        trip_activity =  TripActivity.objects.create(
+            trip=trip,
+            activity=activity,
+        )
+        return Response({'message': 'Item added'}, status=status.HTTP_201_CREATED)
+
+    @action(methods=['put'], detail=True)
+    def remove_activity(self, request, pk):
+
+        trip = Trip.objects.get(pk=pk)
+        activity=Activity.objects.get(pk=request.data["activityId"])
+        trip_activities = TripActivity.objects.filter(
+            trip=trip,
+            activity=activity
+        )
+        if len(trip_activities) > 0:
+            trip_activities[0].delete()
+        else:
+            pass
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+class TripActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        fields = ('id', 'name', 'description', 'length_of_time', 'cost')
 class TripSerializer(serializers.ModelSerializer):
+    activities = TripActivitySerializer(many=True, read_only=True)
     class Meta:
         model = Trip
-        fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'traveler')
+        fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'traveler', 'activities')
         depth = 1
         
 class TripSerializerShallow(serializers.ModelSerializer):
