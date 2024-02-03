@@ -1,0 +1,11 @@
+[
+    {
+        "model": "itineraryapi.activityreview",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "activity": 1,
+            "review": "Activity was fun"
+        }
+    }
+]
