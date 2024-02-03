@@ -17,13 +17,14 @@ from django.conf.urls import include
 from rest_framework import routers
 from django.contrib import admin
 from django.urls import path
-from itineraryapi.views import register_user, check_user, ActivityView, TravelerView, TripView, TripActivityView
+from itineraryapi.views import register_user, check_user, ActivityView, TravelerView, TripView, TripActivityView, ActivityReview
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'activity', ActivityView, 'activity')
 router.register(r'travelers', TravelerView, 'traveler')
 router.register(r'trips', TripView, 'trip')
 router.register(r'tripactivity', TripActivityView, 'tripactivity')
+router.register(r'activityreview', ActivityReview, 'activityreview')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
