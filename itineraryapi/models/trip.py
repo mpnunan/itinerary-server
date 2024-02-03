@@ -1,5 +1,6 @@
 from django.db import models
 from .traveler import Traveler
+# from .destination import Destination
 
 
 class Trip(models.Model):
@@ -11,4 +12,4 @@ class Trip(models.Model):
     traveler = models.ForeignKey(Traveler, on_delete=models.CASCADE)
 
     def activities(self):
-            return [activity_trip.activity for activity_trip in self.activity_trips.all()]
+        return [activity_trip.activity for activity_trip in self.activity_trips.all()]

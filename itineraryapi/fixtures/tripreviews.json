@@ -1,0 +1,11 @@
+[
+  {
+    "model": "itineraryapi.tripreview",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "trip": 1,
+      "review": "Super amazing"
+    }
+  }
+]
