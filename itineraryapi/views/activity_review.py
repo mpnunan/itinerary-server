@@ -13,7 +13,7 @@ class ActivityReviewView(ViewSet):
         """Handle GET requests for activity reviews"""
         try:
             activityreview = ActivityReview.objects.get(pk=pk)
-            serializer = ActivityReview(activityreview)
+            serializer = ActivityReviewSerializer(activityreview)
             return Response(serializer.data)
         except ActivityReview.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
@@ -29,11 +29,11 @@ class ActivityReviewView(ViewSet):
         user = Admin.objects.get(uid=request.data["user"])
         activity = Activity.objects.get(pk=request.data["activity"])
         activityreview = ActivityReview.objects.create(
-            acitivty=activity,
+            activity=activity,
             user=user,
             review=request.data["review"]
         )
-        serializer = ActivityReview(activityreview)
+        serializer = ActivityReviewSerializer(activityreview)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request, pk):
@@ -48,4 +48,3 @@ class ActivityReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivityReview
         fields = ('id', 'user', 'activity', 'review')
-        depth = 1
