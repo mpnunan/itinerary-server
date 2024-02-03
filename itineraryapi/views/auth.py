@@ -44,7 +44,7 @@ def register_user(request):
         uid=request.data['uid'],
         name=request.data['name'],
         bio=request.data['bio'],
-        
+    
     )
 
     # Return the gamer info to the client
