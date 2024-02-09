@@ -22,25 +22,25 @@ class TripView(ViewSet):
         return Response(serializer.data)
     
     def create(self, request):
-        traveler=Traveler.objects.get(pk=request.data["travelerId"])
+        user=Admin.objects.get(uid=request.META['HTTP_AUTHORIZATION'])
         trip = Trip.objects.create(
             destination=request.data["destination"],
             transportation=request.data["transportation"],
             start_date=request.data["startDate"],
             end_date=request.data["endDate"],
-            traveler=traveler
+            user=user
         )
         serializer = TripSerializerShallow(trip)
         return Response(serializer.data)
     
     def update(self, request, pk):
-        traveler=Traveler.objects.get(pk=request.data["travelerId"])
+        user=Admin.objects.get(uid=request.META['HTTP_AUTHORIZATION'])
         trip = Trip.objects.get(pk=pk)
         trip.destination=request.data["destination"]
         trip.transportation=request.data["transportation"]
         trip.start_date=request.data["startDate"]
         trip.end_date=request.data["endDate"]
-        trip.traveler=traveler
+        trip.user=user
         trip.save()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
     
@@ -114,9 +114,10 @@ class TripSerializer(serializers.ModelSerializer):
         return [{trip_review.review, trip_review.user.name} for trip_review in TripReview.objects.filter(trip=obj)]
     class Meta:
         model = Trip
-        fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'traveler', 'activities', 'reviews')
+        fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'user', 'activities', 'reviews')
+        depth = 1
         
 class TripSerializerShallow(serializers.ModelSerializer):
     class Meta:
         model = Trip
-        fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'traveler_id')
+        fields = ('id', 'destination', 'transportation', 'start_date', 'end_date', 'user_id')
