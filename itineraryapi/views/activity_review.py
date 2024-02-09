@@ -21,6 +21,12 @@ class ActivityReviewView(ViewSet):
     def list(self, request):
         """Handle GET requests to get ALL activity reviews"""
         activityreview = ActivityReview.objects.all()
+
+        activity = request.query_params.get('activity', None)
+
+        if activity is not None:
+            activityreview = activityreview.filter(activity_id=activity)
+
         serializer = ActivityReviewSerializer(activityreview, many=True)
         return Response(serializer.data)
 

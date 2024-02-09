@@ -22,13 +22,14 @@ class ActivityView(ViewSet):
     def list(self, request):
         """Handle GET requests to get ALL Activities"""
         activitys = Activity.objects.all()
-        
+
         trip = request.query_params.get('trip')
+
         for activity in activitys:
             activity.planned = len(TripActivity.objects.filter(
                 trip_id=trip, activity_id=activity
             )) > 0
-        
+
         serializer = ActivitySerializer(activitys, many=True)
         return Response(serializer.data)
 
@@ -63,4 +64,5 @@ class ActivitySerializer(serializers.ModelSerializer):
     """JSON Serializer for acitivity"""
     class Meta:
         model = Activity
-        fields = ('id', 'name', 'description', 'length_of_time', 'cost', 'planned')
+        fields = ('id', 'name', 'description',
+                  'length_of_time', 'cost', 'planned')
