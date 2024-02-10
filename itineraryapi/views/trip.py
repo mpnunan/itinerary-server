@@ -69,10 +69,7 @@ class TripView(ViewSet):
             trip=trip,
             activity=activity
         )
-        if len(trip_activities) > 0:
-            trip_activities[0].delete()
-        else:
-            pass
+        trip_activities[0].delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
     
     @action(methods=['post'], detail=True)
@@ -101,6 +98,19 @@ class TripView(ViewSet):
         )
         trip_reviews.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
+    @action(methods=['get'], detail=True)
+    def user_trips(self, request,pk):
+        trips = Trip.objects.all()
+        uid = request.META['HTTP_AUTHORIZATION']
+        if uid is not None:
+            user = Admin.objects.get(uid=uid)
+            trips = trips.filter(user_id=user.id)
+        else:
+            return Response({'message': 'No Trips'}, status=status.HTTP_204_NO_CONTENT)
+        serializer = TripSerializerShallow(trips, many=True)
+        return Response(serializer.data)
+        
 
 class TripActivitySerializer(serializers.ModelSerializer):
     class Meta:
